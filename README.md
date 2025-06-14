@@ -50,7 +50,6 @@ A modern web application for practicing Georgian grammar correction. Users recei
    # .env
    DATABASE_URL="postgresql://username:password@localhost:5432/tekstiko?schema=public"
    NEXTAUTH_SECRET="your-secret-key-here"
-   NEXTAUTH_URL="http://localhost:3000"
    ```
 
 4. **Set up the database**

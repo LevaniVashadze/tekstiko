@@ -15,21 +15,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         try {
           // Call our API route to verify the user
-          const response = await fetch(
-            `${
-              process.env.NEXTAUTH_URL || "http://localhost:3000"
-            }/api/auth/verify-user`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: credentials.email,
-                password: credentials.password,
-              }),
-            }
-          );
+          const response = await fetch(`/api/auth/verify-user`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
 
           if (!response.ok) {
             throw new Error("Invalid credentials");
