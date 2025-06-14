@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -13,25 +15,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           throw new Error("Missing credentials");
         }
 
+        const email = credentials.email as string;
+        const password = credentials.password as string;
+
         try {
-          // Call our API route to verify the user
-          const response = await fetch(`/api/auth/verify-user`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: credentials.email,
-              password: credentials.password,
-            }),
+          // Find user by email
+          const user = await prisma.user.findUnique({
+            where: { email },
           });
 
-          if (!response.ok) {
+          if (!user || !user.password) {
             throw new Error("Invalid credentials");
           }
 
-          const data = await response.json();
-          return data.user;
+          // Verify password
+          const isValidPassword = bcrypt.compareSync(password, user.password);
+
+          if (!isValidPassword) {
+            throw new Error("Invalid credentials");
+          }
+
+          // Return user without password
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { password: _, ...userWithoutPassword } = user;
+          return userWithoutPassword;
         } catch (error) {
           console.error("Auth error:", error);
           throw new Error("Invalid credentials");
