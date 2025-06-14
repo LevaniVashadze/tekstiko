@@ -5,7 +5,9 @@ async function main() {
   const password = process.env.ADMIN_PASSWORD;
   const name = process.env.ADMIN_NAME || "Administrator";
 
-  console.log("Creating admin user...");
+  console.log(
+    "Checking for existing users and creating admin user if needed..."
+  );
 
   try {
     if (!password) {
@@ -16,7 +18,9 @@ async function main() {
     if (user) {
       console.log(`✅ Admin user created successfully: ${user.email}`);
     } else {
-      console.log("ℹ️  Admin user already exists");
+      console.log(
+        "ℹ️  Admin user creation skipped (users already exist or admin already exists)"
+      );
     }
   } catch (error) {
     console.error("❌ Error creating admin user:", error);

@@ -12,6 +12,16 @@ export async function createAdminUser(
   name?: string
 ) {
   try {
+    // Check if any users exist in the database
+    const userCount = await prisma.user.count();
+
+    if (userCount > 0) {
+      console.log(
+        "Users already exist in the database. Skipping admin user creation."
+      );
+      return null;
+    }
+
     const hashedPassword = hashPassword(password);
 
     const user = await prisma.user.create({
