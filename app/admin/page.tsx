@@ -72,7 +72,7 @@ export default function AdminPage() {
       } else {
         toast.error("Failed to load texts");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to load texts");
     } finally {
       setIsLoading(false);
@@ -123,7 +123,7 @@ export default function AdminPage() {
             (editingText ? "Failed to update text" : "Failed to upload text")
         );
       }
-    } catch (error) {
+    } catch {
       toast.error(
         editingText ? "Failed to update text" : "Failed to upload text"
       );
@@ -166,7 +166,7 @@ export default function AdminPage() {
       } else {
         toast.error("Failed to delete text");
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete text");
     }
   };

@@ -20,7 +20,6 @@ interface HoverState {
 export function AdvancedTextComparison({
   userText,
   correctText,
-  originalText,
   referenceID,
 }: AdvancedTextComparisonProps & { referenceID?: string }) {
   const [activeWord, setActiveWord] = useState<HoverState | null>(null);

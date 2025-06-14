@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -22,12 +21,12 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
-      const result = await signIn("credentials", {
+      await signIn("credentials", {
         email: formData.email,
         password: formData.password,
         redirectTo: "/admin",
       });
-    } catch (error) {
+    } catch {
       toast.error("Login failed");
     } finally {
       setIsLoading(false);

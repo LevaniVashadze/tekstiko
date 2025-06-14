@@ -5,7 +5,7 @@
 // Debug logging utility
 const DEBUG = true; // Set to false to disable logging
 
-function log(...args: any[]) {
+function log(...args: unknown[]) {
   if (DEBUG) {
     console.log("[DIFF DEBUG]", ...args);
   }

@@ -1,14 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { EditableText } from "@/components/editable-text";
 import { AdvancedTextComparison } from "@/components/advanced-text-comparison";
 import { RotateCcw, Undo2 } from "lucide-react";
-import Link from "next/link";
 
 interface Text {
   id: string;
@@ -25,7 +23,6 @@ interface UserText {
 }
 
 export default function HomePage() {
-  const { data: session } = useSession();
   const [currentText, setCurrentText] = useState<Text | null>(null);
   const [userAnswer, setUserAnswer] = useState("");
   const [originalAnswer, setOriginalAnswer] = useState("");
@@ -143,7 +140,7 @@ export default function HomePage() {
           toast.error(errorData.error || "ტექსტის ჩატვირთვა ვერ მოხერხდა");
         }
       }
-    } catch (error) {
+    } catch {
       toast.error("ტექსტის ჩატვირთვა ვერ მოხერხდა");
     }
   };
@@ -175,7 +172,7 @@ export default function HomePage() {
       saveUserText(currentText.id, userAnswer, true);
       setShowComparison(true);
       toast.success("ტექსტი წარმატებით გაიგზავნა!");
-    } catch (error) {
+    } catch {
       toast.error("ტექსტის გაგზავნა ვერ მოხერხდა");
     } finally {
       setIsSubmitting(false);
@@ -206,47 +203,6 @@ export default function HomePage() {
       setUserAnswer(originalAnswer);
       setEditHistory([originalAnswer]);
     }
-  };
-
-  const renderTextWithDifferences = (
-    text1: string,
-    text2: string,
-    type: "correct" | "user"
-  ) => {
-    const words1 = text1.split(/(\s+)/);
-    const words2 = text2.split(/(\s+)/);
-
-    return words1.map((word, index) => {
-      const otherWord = words2[index] || "";
-      const isDifferent =
-        word.trim() !== otherWord.trim() && (word.trim() || otherWord.trim());
-
-      if (!word.trim()) {
-        return <span key={index}>{word}</span>;
-      }
-
-      if (isDifferent) {
-        return (
-          <span
-            key={index}
-            className={`px-1 rounded transition-all ${
-              type === "correct"
-                ? "bg-green-200 text-green-900 border border-green-300"
-                : "bg-red-200 text-red-900 border border-red-300"
-            }`}
-            title={
-              type === "correct"
-                ? `User wrote: "${otherWord.trim()}"`
-                : `Correct: "${otherWord.trim()}"`
-            }
-          >
-            {word}
-          </span>
-        );
-      }
-
-      return <span key={index}>{word}</span>;
-    });
   };
 
   return (

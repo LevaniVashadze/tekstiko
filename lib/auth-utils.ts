@@ -24,8 +24,13 @@ export async function createAdminUser(
 
     console.log("Admin user created successfully:", user.email);
     return user;
-  } catch (error: any) {
-    if (error.code === "P2002") {
+  } catch (error: unknown) {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "P2002"
+    ) {
       console.log("User with this email already exists");
       return null;
     }
