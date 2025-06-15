@@ -210,13 +210,13 @@ export function AdvancedTextComparison({
       )}
 
       {/* Reference ID and Toggle Control */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-2 mb-4">
         {/* Reference ID */}
         {referenceID && (
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">კოდი:</span>
+            <span className="text-xs sm:text-sm text-gray-600">კოდი:</span>
             <span
-              className="text-sm bg-gray-100 text-gray-800 px-2 py-1 rounded border"
+              className="text-xs sm:text-sm bg-gray-100 text-gray-800 px-1 sm:px-2 py-1 rounded border"
               style={{
                 fontFamily:
                   'Monaco, Menlo, "Ubuntu Mono", "Courier New", monospace',
@@ -229,12 +229,12 @@ export function AdvancedTextComparison({
 
         {/* Toggle Control */}
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600 georgian-text">
+          <span className="text-xs sm:text-sm text-gray-600 georgian-text">
             მარკირება:
           </span>
           <button
             onClick={() => setHighlightingEnabled(!highlightingEnabled)}
-            className={`px-3 py-1 rounded text-sm font-medium transition-colors georgian-text ${
+            className={`px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-colors georgian-text ${
               highlightingEnabled
                 ? "bg-blue-100 text-blue-700 border border-blue-300"
                 : "bg-gray-100 text-gray-700 border border-gray-300"
@@ -246,29 +246,29 @@ export function AdvancedTextComparison({
       </div>
 
       {/* Text Comparison */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
-          <CardHeader>
-            <CardTitle className="text-green-800 georgian-text">
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="text-green-800 georgian-text text-base md:text-lg">
               სწორი ვარიანტი
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+          <CardContent className="px-3 md:px-6">
+            <div className="p-3 md:p-4 bg-green-50 rounded-lg border border-green-200">
               {renderCorrectText()}
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-blue-800 flex items-center gap-2 georgian-text">
-              <XCircle className="h-5 w-5" />
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="text-blue-800 flex items-center gap-2 georgian-text text-base md:text-lg">
+              <XCircle className="h-4 w-4 md:h-5 md:w-5" />
               თქვენი ვარიანტი
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="p-4 rounded-lg border border-blue-200">
+          <CardContent className="px-3 md:px-6">
+            <div className="p-3 md:p-4 rounded-lg border border-blue-200">
               {renderUserText()}
             </div>
           </CardContent>
@@ -278,41 +278,43 @@ export function AdvancedTextComparison({
       {/* Legend */}
       {highlightingEnabled && (
         <Card>
-          <CardHeader>
-            <CardTitle className="georgian-text">როგორ გამოვიყენოთ</CardTitle>
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="georgian-text text-base md:text-lg">
+              როგორ გამოვიყენოთ
+            </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 md:px-6">
             <div className="space-y-3">
-              <div className="flex items-center gap-4 text-sm flex-wrap">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-1 bg-yellow-100 text-yellow-800 border-b-2 border-yellow-400 rounded underline decoration-wavy decoration-yellow-600">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <span className="px-2 py-1 bg-yellow-100 text-yellow-800 border-b-2 border-yellow-400 rounded underline decoration-wavy decoration-yellow-600 text-xs whitespace-nowrap">
                     განსხვავებული
                   </span>
-                  <span className="georgian-text">
+                  <span className="georgian-text text-xs sm:text-sm">
                     სიტყვები, რომლებიც განსხვავდება სწორი ვარიანტისგან
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-1 bg-red-100 text-red-800 border-b-2 border-red-400 rounded line-through decoration-red-600 decoration-2">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <span className="px-2 py-1 bg-red-100 text-red-800 border-b-2 border-red-400 rounded line-through decoration-red-600 decoration-2 text-xs whitespace-nowrap">
                     ზედმეტი
                   </span>
-                  <span className="georgian-text">
+                  <span className="georgian-text text-xs sm:text-sm">
                     სიტყვები, რომლებიც უნდა ამოიშალოს (გადახაზული)
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-1 bg-blue-50 text-blue-900 border-2 border-blue-300 border-dashed rounded shadow-sm ring-1 ring-blue-200">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <span className="px-2 py-1 bg-blue-50 text-blue-900 border-2 border-blue-300 border-dashed rounded shadow-sm ring-1 ring-blue-200 text-xs whitespace-nowrap">
                     დაკარგული პუნქტუაცია
                   </span>
-                  <span className="georgian-text">
+                  <span className="georgian-text text-xs sm:text-sm">
                     დაკარგული პუნქტუაცია მონიშნული ლურჯი წყვეტილი ჩარჩოთი
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-1 bg-purple-100 text-purple-800 border-2 border-purple-400 border-dashed rounded">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                  <span className="px-2 py-1 bg-purple-100 text-purple-800 border-2 border-purple-400 border-dashed rounded text-xs whitespace-nowrap">
                     დაკარგული სიტყვები
                   </span>
-                  <span className="georgian-text">
+                  <span className="georgian-text text-xs sm:text-sm">
                     დაკარგული სიტყვები ჩასმული იასამნისფერი წყვეტილი ჩარჩოთი
                   </span>
                 </div>

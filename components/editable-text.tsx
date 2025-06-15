@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Textarea } from "@/components/ui/textarea";
 
 interface EditableTextProps {
@@ -20,18 +20,39 @@ export function EditableText({
   placeholder,
   className,
 }: EditableTextProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight();
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onChange(e.target.value);
+    adjustHeight();
+  };
+
   return (
     <div className="relative">
       <Textarea
+        ref={textareaRef}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={handleChange}
         disabled={disabled}
         placeholder={placeholder}
-        className={`min-h-32 georgian-text ${className}`}
+        className={`resize-none overflow-hidden georgian-text ${className}`}
         style={{
           position: "relative",
           zIndex: 2,
           backgroundColor: "rgba(255,255,255,0.9)",
+          minHeight: "120px",
         }}
       />
 
