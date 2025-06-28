@@ -129,13 +129,13 @@
   letter-spacing: 0.5px;
 }
 
-/* Text comparison highlights */
+/* Text comparison highlights - Dark mode support */
 .highlight-error {
-  @apply bg-red-100 text-red-800 px-1 rounded;
+  @apply bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 px-1 rounded;
 }
 
 .highlight-correct {
-  @apply bg-green-100 text-green-800 px-1 rounded;
+  @apply bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-1 rounded;
 }
 
 /* Line clamp utility for text preview */
@@ -151,17 +151,17 @@
   transition: all 0.2s ease-in-out;
 }
 
-/* Custom scrollbar for text areas */
+/* Custom scrollbar for text areas - Dark mode support */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-gray-100 rounded;
+  @apply bg-gray-100 dark:bg-gray-700 rounded;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded hover:bg-gray-400;
+  @apply bg-gray-300 dark:bg-gray-600 rounded hover:bg-gray-400 dark:hover:bg-gray-500;
 }
 
 /* Enhanced text editing styles */

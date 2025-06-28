@@ -47,11 +47,10 @@ export function EditableText({
         onChange={handleChange}
         disabled={disabled}
         placeholder={placeholder}
-        className={`resize-none overflow-hidden georgian-text ${className}`}
+        className={`resize-none overflow-hidden georgian-text bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 ${className}`}
         style={{
           position: "relative",
           zIndex: 2,
-          backgroundColor: "rgba(255,255,255,0.9)",
           minHeight: "120px",
         }}
       />
@@ -89,7 +88,7 @@ export function EditableText({
 
       {/* Change counter */}
       {!disabled && originalText && (
-        <div className="absolute top-2 right-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full z-10">
+        <div className="absolute top-2 right-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full z-10">
           {
             value.split(/(\s+)/).filter((part, index) => {
               const originalWords = originalText.split(/(\s+)/);
@@ -101,7 +100,7 @@ export function EditableText({
               );
             }).length
           }{" "}
-          changes
+          ცვლილება
         </div>
       )}
     </div>

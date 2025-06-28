@@ -201,8 +201,8 @@ export function AdvancedTextComparison({
             transform: "translate(-50%, -100%)",
           }}
         >
-          <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-2 max-w-sm">
-            <div className="text-sm georgian-text text-gray-800 font-medium">
+          <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg p-2 max-w-sm">
+            <div className="text-sm georgian-text text-gray-800 dark:text-gray-200 font-medium">
               {activeWord.correctedText}
             </div>
           </div>
@@ -214,9 +214,11 @@ export function AdvancedTextComparison({
         {/* Reference ID */}
         {referenceID && (
           <div className="flex items-center gap-2">
-            <span className="text-xs sm:text-sm text-gray-600">კოდი:</span>
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+              კოდი:
+            </span>
             <span
-              className="text-xs sm:text-sm bg-gray-100 text-gray-800 px-1 sm:px-2 py-1 rounded border"
+              className="text-xs sm:text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 sm:px-2 py-1 rounded border"
               style={{
                 fontFamily:
                   'Monaco, Menlo, "Ubuntu Mono", "Courier New", monospace',
@@ -229,15 +231,15 @@ export function AdvancedTextComparison({
 
         {/* Toggle Control */}
         <div className="flex items-center gap-2">
-          <span className="text-xs sm:text-sm text-gray-600 georgian-text">
+          <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 georgian-text">
             მარკირება:
           </span>
           <button
             onClick={() => setHighlightingEnabled(!highlightingEnabled)}
             className={`px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-colors georgian-text ${
               highlightingEnabled
-                ? "bg-blue-100 text-blue-700 border border-blue-300"
-                : "bg-gray-100 text-gray-700 border border-gray-300"
+                ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-700"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600"
             }`}
           >
             {highlightingEnabled ? "ჩართული" : "გამორთული"}

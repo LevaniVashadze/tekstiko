@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { EditableText } from "@/components/editable-text";
 import { AdvancedTextComparison } from "@/components/advanced-text-comparison";
-import { RotateCcw, Undo2 } from "lucide-react";
+import { RotateCcw, Undo2, Moon, Sun } from "lucide-react";
 
 interface Text {
   id: string;
@@ -31,6 +31,34 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editHistory, setEditHistory] = useState<string[]>([]);
   const [allTextsCompleted, setAllTextsCompleted] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Initialize dark mode from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("tekstiko-theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const shouldUseDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+
+    setIsDarkMode(shouldUseDark);
+    updateTheme(shouldUseDark);
+  }, []);
+
+  const updateTheme = (dark: boolean) => {
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    updateTheme(newDarkMode);
+    localStorage.setItem("tekstiko-theme", newDarkMode ? "dark" : "light");
+  };
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -206,112 +234,138 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 md:p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-2 md:p-4 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-4 md:mb-8">
+        <header className="flex justify-between items-center mb-4 md:mb-8">
           <div>
-            <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-1 md:mb-2">
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-1 md:mb-2">
               ტექსტიკო
             </h1>
-            <p className="text-sm md:text-base text-gray-600 georgian-text">
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 georgian-text">
               ქართული გრამატიკის სასწავლო პლატფორმა
             </p>
           </div>
-        </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleDarkMode}
+            className="flex items-center gap-2 btn-transition georgian-text"
+            aria-label={
+              isDarkMode ? "ღია თემაზე გადართვა" : "მუქი თემაზე გადართვა"
+            }
+          >
+            {isDarkMode ? (
+              <>
+                <Sun className="h-4 w-4" />
+              </>
+            ) : (
+              <>
+                <Moon className="h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </header>
 
         {currentText ? (
-          <div className="space-y-4 md:space-y-6">
+          <main className="space-y-4 md:space-y-6">
             {!showComparison ? (
               /* Editing Mode - Full Width */
-              <Card>
-                <CardHeader className="pb-3 md:pb-6">
-                  <CardTitle className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                    <span className="georgian-text text-base md:text-lg">
-                      ტექსტის რედაქტირება და შესწორება
-                    </span>
-                    <span className="text-xs md:text-sm georgian-text text-gray-600">
-                      კოდი:
-                      <span
-                        className="ml-1 bg-gray-100 text-gray-800 px-1 md:px-2 py-1 rounded border text-xs"
-                        style={{
-                          fontFamily:
-                            'Monaco, Menlo, "Ubuntu Mono", "Courier New", monospace',
-                        }}
-                      >
-                        {currentText.referenceID}
+              <section aria-label="ტექსტის რედაქტირება">
+                <Card>
+                  <CardHeader className="pb-3 md:pb-6">
+                    <CardTitle className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                      <span className="georgian-text text-base md:text-lg">
+                        ტექსტის რედაქტირება
                       </span>
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 md:space-y-4 px-3 md:px-6">
-                  <div>
-                    <EditableText
-                      value={userAnswer}
-                      originalText={originalAnswer}
-                      onChange={handleTextChange}
-                      disabled={false}
-                      placeholder="შეასწორეთ ქართული ტექსტი გრამატიკული შეცდომების გამოსასწორებლად..."
-                    />
+                      <span className="text-xs md:text-sm georgian-text text-gray-600 dark:text-gray-400">
+                        კოდი:
+                        <span
+                          className="ml-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 md:px-2 py-1 rounded border text-xs"
+                          style={{
+                            fontFamily:
+                              'Monaco, Menlo, "Ubuntu Mono", "Courier New", monospace',
+                          }}
+                        >
+                          {currentText.referenceID}
+                        </span>
+                      </span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 md:space-y-4 px-3 md:px-6">
+                    <div>
+                      <EditableText
+                        value={userAnswer}
+                        originalText={originalAnswer}
+                        onChange={handleTextChange}
+                        disabled={false}
+                        placeholder="შეასწორეთ ქართული ტექსტი გრამატიკული შეცდომების გამოსასწორებლად..."
+                      />
 
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-3 md:mt-4 gap-3 sm:gap-2">
-                      <div className="flex gap-1 md:gap-2">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-3 md:mt-4 gap-3 sm:gap-2">
+                        <div className="flex gap-1 md:gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleUndo}
+                            disabled={editHistory.length <= 1}
+                            className="flex items-center gap-1 btn-transition georgian-text text-xs md:text-sm px-2 md:px-3"
+                            aria-label="ცვლილებების გაუქმება"
+                          >
+                            <Undo2 className="h-3 w-3" />
+                            <span className="hidden sm:inline">
+                              გაუქმება (Ctrl+Z)
+                            </span>
+                            <span className="sm:hidden">გაუქმება</span>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleReset}
+                            disabled={userAnswer === originalAnswer}
+                            className="flex items-center gap-1 btn-transition georgian-text text-xs md:text-sm px-2 md:px-3"
+                            aria-label="ტექსტის თავდაპირველ მდგომარეობაში დაბრუნება"
+                          >
+                            <RotateCcw className="h-3 w-3" />
+                            <span className="hidden sm:inline">
+                              განულება (Ctrl+R)
+                            </span>
+                            <span className="sm:hidden">განულება</span>
+                          </Button>
+                        </div>
+
                         <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleUndo}
-                          disabled={editHistory.length <= 1}
-                          className="flex items-center gap-1 btn-transition georgian-text text-xs md:text-sm px-2 md:px-3"
+                          onClick={handleSubmit}
+                          disabled={isSubmitting}
+                          className="btn-transition georgian-text text-sm md:text-base w-full sm:w-auto"
+                          aria-label="ტექსტის გაგზავნა შემოწმებისთვის"
                         >
-                          <Undo2 className="h-3 w-3" />
-                          <span className="hidden sm:inline">
-                            გაუქმება (Ctrl+Z)
-                          </span>
-                          <span className="sm:hidden">გაუქმება</span>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleReset}
-                          disabled={userAnswer === originalAnswer}
-                          className="flex items-center gap-1 btn-transition georgian-text text-xs md:text-sm px-2 md:px-3"
-                        >
-                          <RotateCcw className="h-3 w-3" />
-                          <span className="hidden sm:inline">
-                            განულება (Ctrl+R)
-                          </span>
-                          <span className="sm:hidden">განულება</span>
+                          {isSubmitting ? (
+                            "იგზავნება..."
+                          ) : (
+                            <>
+                              <span className="hidden sm:inline">
+                                დასრულება (Ctrl+Enter)
+                              </span>
+                              <span className="sm:hidden">დასრულება</span>
+                            </>
+                          )}
                         </Button>
                       </div>
-
-                      <Button
-                        onClick={handleSubmit}
-                        disabled={isSubmitting}
-                        className="btn-transition georgian-text text-sm md:text-base w-full sm:w-auto"
-                      >
-                        {isSubmitting ? (
-                          "იგზავნება..."
-                        ) : (
-                          <>
-                            <span className="hidden sm:inline">
-                              დასრულება (Ctrl+Enter)
-                            </span>
-                            <span className="sm:hidden">დასრულება</span>
-                          </>
-                        )}
-                      </Button>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </section>
             ) : (
               /* Comparison Mode - Advanced Text Comparison */
-              <AdvancedTextComparison
-                userText={userAnswer}
-                correctText={currentText.correctedText}
-                originalText={currentText.text}
-                referenceID={currentText.referenceID}
-              />
+              <section aria-label="ტექსტის შედარება">
+                <AdvancedTextComparison
+                  userText={userAnswer}
+                  correctText={currentText.correctedText}
+                  originalText={currentText.text}
+                  referenceID={currentText.referenceID}
+                />
+              </section>
             )}
 
             {showComparison && (
@@ -320,21 +374,22 @@ export default function HomePage() {
                   onClick={handleLoadNextText}
                   size="lg"
                   className="btn-transition georgian-text w-full sm:w-auto"
+                  aria-label="შემდეგი ტექსტის ჩატვირთვა"
                 >
                   შემდეგი ტექსტი
                 </Button>
               </div>
             )}
-          </div>
+          </main>
         ) : allTextsCompleted ? (
           <Card>
             <CardContent className="text-center py-8 md:py-12 px-4 md:px-6">
               <div className="space-y-3 md:space-y-4">
                 <div className="text-4xl md:text-6xl mb-2 md:mb-4">🎉</div>
-                <h2 className="text-xl md:text-2xl font-bold text-green-600 mb-2 georgian-text">
+                <h2 className="text-xl md:text-2xl font-bold text-green-600 dark:text-green-400 mb-2 georgian-text">
                   გილოცავთ!
                 </h2>
-                <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6 georgian-text">
+                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6 georgian-text">
                   თქვენ დაასრულეთ ყველა ხელმისაწვდომი ტექსტი. შესანიშნავი
                   მუშაობა ქართული გრამატიკის უნარების გაუმჯობესებისთვის!
                 </p>
@@ -357,7 +412,7 @@ export default function HomePage() {
         ) : (
           <Card>
             <CardContent className="text-center py-8 md:py-12 px-4 md:px-6">
-              <p className="text-sm md:text-base text-gray-600 mb-4 georgian-text">
+              <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 georgian-text">
                 ტექსტი იტვირთება...
               </p>
               <Button
@@ -369,6 +424,46 @@ export default function HomePage() {
             </CardContent>
           </Card>
         )}
+
+        {/* Footer */}
+        <footer
+          className="mt-8 md:mt-12 text-center text-sm text
+          gray-600 georgian-text flex flex-col items-center justify-center"
+        >
+          <p>
+            © {new Date().getFullYear()} ტექსტიკო. ყველა უფლება დაცულია.
+            <br />
+            შექმნილია{" "}
+            <a
+              href="https://levani.is-a.dev/"
+              className="text-gray-600 hover:underline"
+            >
+              ლევანის
+            </a>{" "}
+            მიერ
+            <br />
+          </p>
+          <a
+            href="https://github.com/LevaniVashadze/tekstiko"
+            className="text-gray-600 mt-1 flex hover:underline"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-github-icon lucide-github"
+            >
+              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
+          </a>{" "}
+        </footer>
       </div>
     </div>
   );
