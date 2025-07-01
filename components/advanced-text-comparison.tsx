@@ -87,33 +87,33 @@ export function AdvancedTextComparison({
             switch (item.type) {
               case "incorrect":
                 wordClasses +=
-                  " px-0.5 py-0.5 rounded cursor-pointer bg-yellow-100 text-yellow-800 border-b-2 border-yellow-400 hover:bg-yellow-200 active:bg-yellow-300 underline decoration-wavy decoration-yellow-600";
+                  " px-0.5 py-0.5 rounded cursor-pointer bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 border-b-2 border-yellow-400 dark:border-yellow-600 hover:bg-yellow-200 dark:hover:bg-yellow-800 active:bg-yellow-300 dark:active:bg-yellow-700 underline decoration-wavy decoration-yellow-600 dark:decoration-yellow-400";
                 shouldShowHover = true;
                 break;
               case "extra":
                 wordClasses +=
-                  " px-0.5 py-0.5 rounded cursor-pointer bg-red-100 text-red-800 border-b-2 border-red-400 hover:bg-red-200 active:bg-red-300 line-through decoration-red-600 decoration-2";
+                  " px-0.5 py-0.5 rounded cursor-pointer bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 border-b-2 border-red-400 dark:border-red-600 hover:bg-red-200 dark:hover:bg-red-800 active:bg-red-300 dark:active:bg-red-700 line-through decoration-red-600 dark:decoration-red-400 decoration-2";
                 shouldShowHover = true;
                 break;
               case "missing":
                 // Style missing elements with a distinctive appearance
                 if (item.missingType === "punctuation") {
                   wordClasses +=
-                    " px-1 py-0.5 rounded cursor-pointer bg-blue-50 text-blue-900 border-2 border-blue-300 border-dashed hover:bg-blue-100 active:bg-blue-200 shadow-sm ring-1 ring-blue-200";
+                    " px-1 py-0.5 rounded cursor-pointer bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-blue-200 border-2 border-blue-300 dark:border-blue-600 border-dashed hover:bg-blue-100 dark:hover:bg-blue-800 active:bg-blue-200 dark:active:bg-blue-700 shadow-sm ring-1 ring-blue-200 dark:ring-blue-600";
                 } else {
                   wordClasses +=
-                    " px-0.5 py-0.5 rounded cursor-pointer bg-purple-100 text-purple-800 border-2 border-purple-400 border-dashed hover:bg-purple-200 active:bg-purple-300";
+                    " px-0.5 py-0.5 rounded cursor-pointer bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 border-2 border-purple-400 dark:border-purple-600 border-dashed hover:bg-purple-200 dark:hover:bg-purple-800 active:bg-purple-300 dark:active:bg-purple-700";
                 }
                 shouldShowHover = true;
                 break;
               case "correct":
               default:
-                wordClasses += " text-gray-800";
+                wordClasses += " text-gray-800 dark:text-gray-200";
                 break;
             }
           } else {
             // When highlighting is disabled, show all text in default color
-            wordClasses += " text-gray-800";
+            wordClasses += " text-gray-800 dark:text-gray-200";
           }
 
           return (
@@ -161,7 +161,8 @@ export function AdvancedTextComparison({
     return (
       <div className="leading-relaxed space-x-1">
         {words.map((word, index) => {
-          const baseClasses = "georgian-text inline text-gray-800";
+          const baseClasses =
+            "georgian-text inline text-gray-800 dark:text-gray-200";
 
           // Highlight words that are part of the active correction
           let shouldHighlight = false;
@@ -174,7 +175,7 @@ export function AdvancedTextComparison({
               <span
                 className={`${baseClasses} transition-all duration-300 ${
                   shouldHighlight
-                    ? "bg-green-200 text-green-900 px-1 rounded border border-green-300"
+                    ? "bg-green-200 dark:bg-green-800 text-green-900 dark:text-green-200 px-1 rounded border border-green-300 dark:border-green-600"
                     : ""
                 }`}
               >
@@ -251,12 +252,12 @@ export function AdvancedTextComparison({
       <div className="grid lg:grid-cols-2 gap-4 md:gap-6">
         <Card>
           <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="text-green-800 georgian-text text-base md:text-lg">
+            <CardTitle className="text-green-800 dark:text-green-400 georgian-text text-base md:text-lg">
               სწორი ვარიანტი
             </CardTitle>
           </CardHeader>
           <CardContent className="px-3 md:px-6">
-            <div className="p-3 md:p-4 bg-green-50 rounded-lg border border-green-200">
+            <div className="p-3 md:p-4 bg-green-50 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700">
               {renderCorrectText()}
             </div>
           </CardContent>
@@ -264,13 +265,12 @@ export function AdvancedTextComparison({
 
         <Card>
           <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="text-blue-800 flex items-center gap-2 georgian-text text-base md:text-lg">
-              <XCircle className="h-4 w-4 md:h-5 md:w-5" />
+            <CardTitle className="text-blue-800 dark:text-blue-400 flex items-center gap-2 georgian-text text-base md:text-lg">
               თქვენი ვარიანტი
             </CardTitle>
           </CardHeader>
           <CardContent className="px-3 md:px-6">
-            <div className="p-3 md:p-4 rounded-lg border border-blue-200">
+            <div className="p-3 md:p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700">
               {renderUserText()}
             </div>
           </CardContent>
@@ -281,7 +281,7 @@ export function AdvancedTextComparison({
       {highlightingEnabled && (
         <Card>
           <CardHeader className="pb-3 md:pb-6">
-            <CardTitle className="georgian-text text-base md:text-lg">
+            <CardTitle className="georgian-text text-base md:text-lg dark:text-gray-100">
               როგორ გამოვიყენოთ
             </CardTitle>
           </CardHeader>
@@ -289,34 +289,34 @@ export function AdvancedTextComparison({
             <div className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                  <span className="px-2 py-1 bg-yellow-100 text-yellow-800 border-b-2 border-yellow-400 rounded underline decoration-wavy decoration-yellow-600 text-xs whitespace-nowrap">
+                  <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 border-b-2 border-yellow-400 dark:border-yellow-600 rounded underline decoration-wavy decoration-yellow-600 dark:decoration-yellow-400 text-xs whitespace-nowrap">
                     განსხვავებული
                   </span>
-                  <span className="georgian-text text-xs sm:text-sm">
+                  <span className="georgian-text text-xs sm:text-sm dark:text-gray-300">
                     სიტყვები, რომლებიც განსხვავდება სწორი ვარიანტისგან
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                  <span className="px-2 py-1 bg-red-100 text-red-800 border-b-2 border-red-400 rounded line-through decoration-red-600 decoration-2 text-xs whitespace-nowrap">
+                  <span className="px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 border-b-2 border-red-400 dark:border-red-600 rounded line-through decoration-red-600 dark:decoration-red-400 decoration-2 text-xs whitespace-nowrap">
                     ზედმეტი
                   </span>
-                  <span className="georgian-text text-xs sm:text-sm">
+                  <span className="georgian-text text-xs sm:text-sm dark:text-gray-300">
                     სიტყვები, რომლებიც უნდა ამოიშალოს (გადახაზული)
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                  <span className="px-2 py-1 bg-blue-50 text-blue-900 border-2 border-blue-300 border-dashed rounded shadow-sm ring-1 ring-blue-200 text-xs whitespace-nowrap">
+                  <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-blue-200 border-2 border-blue-300 dark:border-blue-600 border-dashed rounded shadow-sm ring-1 ring-blue-200 dark:ring-blue-600 text-xs whitespace-nowrap">
                     დაკარგული პუნქტუაცია
                   </span>
-                  <span className="georgian-text text-xs sm:text-sm">
+                  <span className="georgian-text text-xs sm:text-sm dark:text-gray-300">
                     დაკარგული პუნქტუაცია მონიშნული ლურჯი წყვეტილი ჩარჩოთი
                   </span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                  <span className="px-2 py-1 bg-purple-100 text-purple-800 border-2 border-purple-400 border-dashed rounded text-xs whitespace-nowrap">
+                  <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 border-2 border-purple-400 dark:border-purple-600 border-dashed rounded text-xs whitespace-nowrap">
                     დაკარგული სიტყვები
                   </span>
-                  <span className="georgian-text text-xs sm:text-sm">
+                  <span className="georgian-text text-xs sm:text-sm dark:text-gray-300">
                     დაკარგული სიტყვები ჩასმული იასამნისფერი წყვეტილი ჩარჩოთი
                   </span>
                 </div>
