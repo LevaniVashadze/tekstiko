@@ -296,7 +296,6 @@ export default function HomePage() {
                     <div>
                       <EditableText
                         value={userAnswer}
-                        originalText={originalAnswer}
                         onChange={handleTextChange}
                         disabled={false}
                         placeholder="შეასწორეთ ქართული ტექსტი გრამატიკული შეცდომების გამოსასწორებლად..."

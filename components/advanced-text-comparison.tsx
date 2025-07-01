@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { XCircle } from "lucide-react";
 import { createEnhancedVisualization } from "@/lib/advanced-diff";
 
 interface AdvancedTextComparisonProps {

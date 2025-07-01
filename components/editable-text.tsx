@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface EditableTextProps {
   value: string;
-  originalText: string;
   onChange: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
@@ -14,7 +13,6 @@ interface EditableTextProps {
 
 export function EditableText({
   value,
-  originalText,
   onChange,
   disabled,
   placeholder,
