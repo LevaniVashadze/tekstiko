@@ -272,30 +272,54 @@ export default function HomePage() {
             {!showComparison ? (
               /* Editing Mode - Full Width */
               <section aria-label="ტექსტის რედაქტირება">
-                <Card>
-                  <CardHeader className="pb-3 md:pb-6">
+                <Card className="gap-3">
+                  <CardHeader>
                     <CardTitle className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                       <span className="georgian-text text-base md:text-lg">
                         ტექსტის რედაქტირება
                       </span>
-                      <span className="text-xs md:text-sm georgian-text text-gray-600 dark:text-gray-400">
-                        კოდი:
-                        <span
-                          className="ml-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 md:px-2 py-1 rounded border text-xs"
-                          style={{
-                            fontFamily:
-                              'Monaco, Menlo, "Ubuntu Mono", "Courier New", monospace',
-                          }}
-                        >
-                          {currentText.referenceID}
+                      <div className="flex items-center justify-between sm:justify-end gap-2">
+                        <span className="text-xs md:text-sm georgian-text text-gray-600 dark:text-gray-400">
+                          კოდი:
+                          <span
+                            className="ml-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 md:px-2 py-1 rounded border text-xs"
+                            style={{
+                              fontFamily:
+                                'Monaco, Menlo, "Ubuntu Mono", "Courier New", monospace',
+                            }}
+                          >
+                            {currentText.referenceID}
+                          </span>
                         </span>
-                      </span>
+                        {/* Change counter - inline with version on mobile, hidden on desktop */}
+                        <div className="md:hidden">
+                          <div className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
+                            {
+                              userAnswer
+                                .split(/(\s+)/)
+                                .filter((part, index) => {
+                                  const originalWords =
+                                    originalAnswer.split(/(\s+)/);
+                                  const originalPart =
+                                    originalWords[index] || "";
+                                  return (
+                                    part.trim() !== originalPart.trim() &&
+                                    part.trim() !== "" &&
+                                    originalPart.trim() !== ""
+                                  );
+                                }).length
+                            }{" "}
+                            ცვლილება
+                          </div>
+                        </div>
+                      </div>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3 md:space-y-4 px-3 md:px-6">
                     <div>
                       <EditableText
                         value={userAnswer}
+                        originalText={originalAnswer}
                         onChange={handleTextChange}
                         disabled={false}
                         placeholder="შეასწორეთ ქართული ტექსტი გრამატიკული შეცდომების გამოსასწორებლად..."

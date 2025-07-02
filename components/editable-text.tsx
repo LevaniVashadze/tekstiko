@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface EditableTextProps {
   value: string;
+  originalText: string;
   onChange: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
@@ -13,6 +14,7 @@ interface EditableTextProps {
 
 export function EditableText({
   value,
+  originalText,
   onChange,
   disabled,
   placeholder,
@@ -52,6 +54,26 @@ export function EditableText({
           minHeight: "120px",
         }}
       />
+
+      {/* Change counter - inside textarea on desktop only */}
+      {!disabled && originalText && (
+        <div className="absolute top-2 right-2 hidden md:block z-10">
+          <div className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
+            {
+              value.split(/(\s+)/).filter((part, index) => {
+                const originalWords = originalText.split(/(\s+)/);
+                const originalPart = originalWords[index] || "";
+                return (
+                  part.trim() !== originalPart.trim() &&
+                  part.trim() !== "" &&
+                  originalPart.trim() !== ""
+                );
+              }).length
+            }{" "}
+            ცვლილება
+          </div>
+        </div>
+      )}
     </div>
   );
 }
